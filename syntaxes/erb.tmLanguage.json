@@ -1,0 +1,54 @@
+{
+  "scopeName": "erb.inline-js.injection",
+  "injectionSelector": "L:text.html.erb",
+  "patterns": [
+    {
+      "include": "#erb-javascript-tag-block"
+    },
+    {
+      "include": "#erb-javascript-tag-inline"
+    }
+  ],
+  "repository": {
+    "erb-javascript-tag-inline": {
+      "begin": "<%-?=?\\s*javascript_tag\\b[^%]*?\\s*(\"|')",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.embedded.begin.erb"
+        }
+      },
+      "end": "\\1",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.erb"
+        }
+      },
+      "name": "meta.embedded.inline.javascript.erb",
+      "patterns": [
+        {
+          "include": "source.js"
+        }
+      ]
+    },
+    "erb-javascript-tag-block": {
+      "begin": "(?m)^([ \\t]*)<%-?=?\\s*javascript_tag\\b[^%]*\\bdo\\b[^%]*-?%>",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.embedded.begin.erb"
+        }
+      },
+      "end": "(?m)^\\1<%-?\\s*end\\s*-?%>",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.embedded.end.erb"
+        }
+      },
+      "name": "meta.embedded.block.javascript.erb",
+      "patterns": [
+        {
+          "include": "source.js"
+        }
+      ]
+    }
+  }
+}

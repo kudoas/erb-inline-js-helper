@@ -1,0 +1,10 @@
+<div class="page">
+  <h1>Sample</h1>
+</div>
+
+<%= javascript_tag do %>
+  const message = "Hello from javascript_tag block";
+  console.log(message);
+<% end %>
+
+<%= javascript_tag "console.log('Hello from inline javascript_tag');" %>

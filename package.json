@@ -1,0 +1,40 @@
+{
+  "name": "erb-inline-js-helper",
+  "displayName": "ERB Inline JS Helper",
+  "description": "VS Code extension to provide syntax highlighting for JavaScript in ERB files.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "pricing": "Free",
+  "icon": "icon.png",
+  "author": {
+    "name": "kudoas"
+  },
+  "publisher": "kudoas",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kudoas/erb-inline-js-helper.git"
+  },
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "HTML",
+    "ERB",
+    "Ruby",
+    "JavaScript"
+  ],
+  "contributes": {
+    "grammars": [
+      {
+        "scopeName": "erb.inline-js.injection",
+        "path": "./syntaxes/erb.tmLanguage.json",
+        "injectTo": [
+          "text.html.erb"
+        ]
+      }
+    ]
+  }
+}
