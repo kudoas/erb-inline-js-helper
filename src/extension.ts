@@ -1,13 +1,14 @@
-import { dirname, resolve } from 'node:path';
-import { CompletionItem, CompletionList, MarkdownString, Position, SnippetString, languages } from 'vscode';
 import {
-  ScriptSnapshot,
-  createLanguageService,
-  getDefaultLibFilePath,
-  parseJsonConfigFileContent,
-  readConfigFile,
-  sys
-} from 'typescript';
+  CompletionItem,
+  CompletionList,
+  Hover,
+  MarkdownString,
+  Position,
+  Range,
+  SnippetString,
+  languages
+} from 'vscode';
+import { ScriptSnapshot, createLanguageService, getDefaultLibFilePath, sys } from 'typescript';
 import * as ts from 'typescript';
 
 import type { CancellationToken, CompletionItemProvider, ExtensionContext, ProviderResult, TextDocument } from 'vscode';
@@ -18,7 +19,8 @@ import type {
   CompletionInfo,
   CompletionsTriggerCharacter,
   LanguageService,
-  LanguageServiceHost
+  LanguageServiceHost,
+  QuickInfo
 } from 'typescript';
 
 type BlockRange = {
@@ -73,6 +75,10 @@ class TypeScriptCompletionService {
 
   getCompletionDetails(name: string, offset: number, source?: string): CompletionEntryDetails | undefined {
     return this.service.getCompletionEntryDetails(this.fileName, offset, name, undefined, source, undefined, undefined);
+  }
+
+  getQuickInfo(offset: number): QuickInfo | undefined {
+    return this.service.getQuickInfoAtPosition(this.fileName, offset);
   }
 
   #createHost(): LanguageServiceHost {
@@ -154,6 +160,51 @@ class JavaScriptCompletionProvider implements CompletionItemProvider {
     }
 
     return item;
+  }
+}
+
+class JavaScriptHoverProvider {
+  constructor(private readonly tsService: TypeScriptCompletionService) {}
+
+  provideHover(document: TextDocument, position: Position, token: CancellationToken): ProviderResult<Hover> {
+    const text = document.getText();
+    const offset = document.offsetAt(position);
+    const block = findJavascriptTagBlock(text, offset);
+    if (!block || token.isCancellationRequested) {
+      return undefined;
+    }
+
+    const jsContent = text.slice(block.start, block.end);
+    const jsOffset = offset - block.start;
+    this.tsService.updateContent(jsContent);
+
+    const info = this.tsService.getQuickInfo(jsOffset);
+    if (!info || token.isCancellationRequested) {
+      return undefined;
+    }
+
+    const display = info.displayParts ? info.displayParts.map((part) => part.text).join('') : '';
+    const documentation = info.documentation ? info.documentation.map((part) => part.text).join('') : '';
+    if (!display && !documentation) {
+      return undefined;
+    }
+
+    const markdown = new MarkdownString();
+    if (display) {
+      markdown.appendCodeblock(display, 'typescript');
+    }
+    if (documentation) {
+      markdown.appendMarkdown(`\n\n${documentation}`);
+    }
+
+    const range = info.textSpan
+      ? new Range(
+          document.positionAt(block.start + info.textSpan.start),
+          document.positionAt(block.start + info.textSpan.start + info.textSpan.length)
+        )
+      : undefined;
+
+    return new Hover(markdown, range);
   }
 }
 
@@ -247,7 +298,9 @@ function mapCompletionEntry(
 export function activate(context: ExtensionContext): void {
   const tsService = new TypeScriptCompletionService();
   const completionProvider = new JavaScriptCompletionProvider(tsService);
+  const hoverProvider = new JavaScriptHoverProvider(tsService);
   context.subscriptions.push(languages.registerCompletionItemProvider({ language: 'erb' }, completionProvider, '.'));
+  context.subscriptions.push(languages.registerHoverProvider({ language: 'erb' }, hoverProvider));
 }
 
 export function deactivate(): void {}

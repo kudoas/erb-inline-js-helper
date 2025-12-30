@@ -41,6 +41,9 @@ class TypeScriptCompletionService {
     getCompletionDetails(name, offset, source) {
         return this.service.getCompletionEntryDetails(this.fileName, offset, name, undefined, source, undefined, undefined);
     }
+    getQuickInfo(offset) {
+        return this.service.getQuickInfoAtPosition(this.fileName, offset);
+    }
     #createHost() {
         return {
             getScriptFileNames: () => [this.fileName],
@@ -106,6 +109,43 @@ class JavaScriptCompletionProvider {
             item.documentation = new vscode_1.MarkdownString(documentation);
         }
         return item;
+    }
+}
+class JavaScriptHoverProvider {
+    tsService;
+    constructor(tsService) {
+        this.tsService = tsService;
+    }
+    provideHover(document, position, token) {
+        const text = document.getText();
+        const offset = document.offsetAt(position);
+        const block = findJavascriptTagBlock(text, offset);
+        if (!block || token.isCancellationRequested) {
+            return undefined;
+        }
+        const jsContent = text.slice(block.start, block.end);
+        const jsOffset = offset - block.start;
+        this.tsService.updateContent(jsContent);
+        const info = this.tsService.getQuickInfo(jsOffset);
+        if (!info || token.isCancellationRequested) {
+            return undefined;
+        }
+        const display = info.displayParts ? info.displayParts.map((part) => part.text).join('') : '';
+        const documentation = info.documentation ? info.documentation.map((part) => part.text).join('') : '';
+        if (!display && !documentation) {
+            return undefined;
+        }
+        const markdown = new vscode_1.MarkdownString();
+        if (display) {
+            markdown.appendCodeblock(display, 'typescript');
+        }
+        if (documentation) {
+            markdown.appendMarkdown(`\n\n${documentation}`);
+        }
+        const range = info.textSpan
+            ? new vscode_1.Range(document.positionAt(block.start + info.textSpan.start), document.positionAt(block.start + info.textSpan.start + info.textSpan.length))
+            : undefined;
+        return new vscode_1.Hover(markdown, range);
     }
 }
 function findJavascriptTagBlock(text, offset) {
@@ -181,6 +221,8 @@ function mapCompletionEntry(entry, offset, itemData) {
 function activate(context) {
     const tsService = new TypeScriptCompletionService();
     const completionProvider = new JavaScriptCompletionProvider(tsService);
+    const hoverProvider = new JavaScriptHoverProvider(tsService);
     context.subscriptions.push(vscode_1.languages.registerCompletionItemProvider({ language: 'erb' }, completionProvider, '.'));
+    context.subscriptions.push(vscode_1.languages.registerHoverProvider({ language: 'erb' }, hoverProvider));
 }
 function deactivate() { }
