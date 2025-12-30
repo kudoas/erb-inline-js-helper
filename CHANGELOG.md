@@ -4,8 +4,9 @@ All notable changes to the "erb-inline-js-helper" extension will be documented i
 
 ## [0.0.2] - 2025-12-30
 
-- Add JavaScript code completion inside `javascript_tag do` blocks.
-- Add hover info inside `javascript_tag do` blocks.
+- Support JavaScript code completion inside `javascript_tag do` blocks.
+- Support hover info inside `javascript_tag do` blocks.
+- Add logging to debug completion behavior.
 
 ## [0.0.1] - 2025-12-29
 
