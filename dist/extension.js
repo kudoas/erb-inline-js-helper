@@ -10,12 +10,14 @@ const JAVASCRIPT_TAG_START_PATTERN = /\bjavascript_tag\b/;
 const JAVASCRIPT_TAG_DO_PATTERN = /\bdo\b/;
 const RUBY_BLOCK_END_PATTERN = /\bend\b/;
 class TypeScriptCompletionService {
+    log;
     fileName = '/virtual/erb-javascript-tag.js';
     content = '';
     version = 0;
     compilerOptions;
     service;
-    constructor() {
+    constructor(log) {
+        this.log = log;
         this.compilerOptions = {
             allowJs: true,
             checkJs: false,
@@ -25,10 +27,12 @@ class TypeScriptCompletionService {
     }
     updateContent(content) {
         if (content === this.content) {
+            this.log?.('TypeScriptCompletionService: content unchanged');
             return;
         }
         this.content = content;
         this.version += 1;
+        this.log?.(`TypeScriptCompletionService: content updated (version=${this.version}, length=${content.length})`);
     }
     getCompletions(offset, triggerCharacter) {
         return this.service.getCompletionsAtPosition(this.fileName, offset, {
@@ -68,14 +72,17 @@ class TypeScriptCompletionService {
 }
 class JavaScriptCompletionProvider {
     tsService;
+    log;
     #itemData = new WeakMap();
-    constructor(tsService) {
+    constructor(tsService, log) {
         this.tsService = tsService;
+        this.log = log;
     }
     provideCompletionItems(document, position, token) {
         const text = document.getText();
         const offset = document.offsetAt(position);
         const block = findJavascriptTagBlock(text, offset);
+        this.log?.(`Completion: offset=${offset} block=${block ? `${block.start}-${block.end}` : 'none'} cancelled=${token.isCancellationRequested}`);
         if (!block || token.isCancellationRequested) {
             return undefined;
         }
@@ -85,6 +92,7 @@ class JavaScriptCompletionProvider {
         const triggerCharacter = lastChar === '.' ? '.' : undefined;
         this.tsService.updateContent(jsContent);
         const completions = this.tsService.getCompletions(jsOffset, triggerCharacter);
+        this.log?.(`Completion: jsOffset=${jsOffset} trigger=${triggerCharacter ?? 'none'} entries=${completions?.entries.length ?? 0} incomplete=${completions?.isIncomplete ?? false} cancelled=${token.isCancellationRequested}`);
         if (!completions || token.isCancellationRequested) {
             return undefined;
         }
@@ -113,13 +121,16 @@ class JavaScriptCompletionProvider {
 }
 class JavaScriptHoverProvider {
     tsService;
-    constructor(tsService) {
+    log;
+    constructor(tsService, log) {
         this.tsService = tsService;
+        this.log = log;
     }
     provideHover(document, position, token) {
         const text = document.getText();
         const offset = document.offsetAt(position);
         const block = findJavascriptTagBlock(text, offset);
+        this.log?.(`Hover: offset=${offset} block=${block ? `${block.start}-${block.end}` : 'none'} cancelled=${token.isCancellationRequested}`);
         if (!block || token.isCancellationRequested) {
             return undefined;
         }
@@ -127,6 +138,7 @@ class JavaScriptHoverProvider {
         const jsOffset = offset - block.start;
         this.tsService.updateContent(jsContent);
         const info = this.tsService.getQuickInfo(jsOffset);
+        this.log?.(`Hover: jsOffset=${jsOffset} info=${info ? 'yes' : 'no'} cancelled=${token.isCancellationRequested}`);
         if (!info || token.isCancellationRequested) {
             return undefined;
         }
@@ -219,10 +231,16 @@ function mapCompletionEntry(entry, offset, itemData) {
     return item;
 }
 function activate(context) {
-    const tsService = new TypeScriptCompletionService();
-    const completionProvider = new JavaScriptCompletionProvider(tsService);
-    const hoverProvider = new JavaScriptHoverProvider(tsService);
+    const output = vscode_1.window.createOutputChannel('ERB JavaScript Inline Helper');
+    const log = (message) => {
+        output.appendLine(`[${new Date().toISOString()}] ${message}`);
+    };
+    log('Extension activated');
+    const tsService = new TypeScriptCompletionService(log);
+    const completionProvider = new JavaScriptCompletionProvider(tsService, log);
+    const hoverProvider = new JavaScriptHoverProvider(tsService, log);
     context.subscriptions.push(vscode_1.languages.registerCompletionItemProvider({ language: 'erb' }, completionProvider, '.'));
     context.subscriptions.push(vscode_1.languages.registerHoverProvider({ language: 'erb' }, hoverProvider));
+    context.subscriptions.push(output);
 }
 function deactivate() { }
