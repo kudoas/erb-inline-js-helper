@@ -161,6 +161,7 @@ class JavaScriptHoverProvider {
     }
 }
 function findJavascriptTagBlock(text, offset) {
+    ERB_TAG_PATTERN.lastIndex = 0;
     const stack = [];
     let match;
     while ((match = ERB_TAG_PATTERN.exec(text))) {

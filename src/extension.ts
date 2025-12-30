@@ -230,6 +230,7 @@ class JavaScriptHoverProvider {
 }
 
 function findJavascriptTagBlock(text: string, offset: number): BlockRange | null {
+  ERB_TAG_PATTERN.lastIndex = 0;
   const stack: Array<{ index: number; length: number; indent: number }> = [];
   let match: RegExpExecArray | null;
 
