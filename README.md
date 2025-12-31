@@ -1,5 +1,7 @@
 # ERB Inline JS Helper
 
+<img src="icon.png" alt="ERB Inline JS Helper" width="128" height="128"/>
+
 Syntax highlighting and code completion for JavaScript embedded in Rails ERB `javascript_tag` blocks and inline strings.
 
 ![image](sample.gif)
