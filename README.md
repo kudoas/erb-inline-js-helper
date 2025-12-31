@@ -7,6 +7,7 @@ Syntax highlighting and code completion for JavaScript embedded in Rails ERB `ja
 ## Features
 
 - Enhances `javascript_tag` with JavaScript highlighting, code completion, and hover info
+- Uses JavaScript comment toggling (`//`) inside `javascript_tag` blocks
 - Works as an injection into `text.html.erb` grammar for ERB files.
 
 ## Installation

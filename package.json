@@ -2,7 +2,7 @@
   "name": "erb-inline-js-helper",
   "displayName": "ERB Inline JS Helper",
   "description": "VS Code extension to provide syntax highlighting and code completion for JavaScript in ERB files.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "pricing": "Free",
   "icon": "icon.png",
@@ -33,11 +33,16 @@
         "path": "./syntaxes/erb.tmLanguage.json",
         "injectTo": [
           "text.html.erb"
-        ]
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.javascript.erb": "javascript"
+        }
       }
     ]
   },
-  "activationEvents": ["onLanguage:erb"],
+  "activationEvents": [
+    "onLanguage:erb"
+  ],
   "main": "./dist/extension.js",
   "scripts": {
     "build": "bun x tsc -p tsconfig.json",
