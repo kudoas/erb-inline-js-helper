@@ -2,6 +2,10 @@
 
 All notable changes to the "erb-inline-js-helper" extension will be documented in this file.
 
+## [0.1.1] - 2026-01-01
+
+- Add `Shopify.ruby-lsp` as an extension dependency.
+
 ## [0.1.0] - 2026-01-01
 
 - Support Go to Definition inside `javascript_tag do` blocks.
