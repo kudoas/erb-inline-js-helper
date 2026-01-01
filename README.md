@@ -17,6 +17,11 @@ Syntax highlighting and language features for JavaScript embedded in Rails ERB `
 - Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=kudoas.erb-inline-js-helper
 - Quick open in VS Code: `vscode:extension/kudoas.erb-inline-js-helper`
 
+## Requirements
+
+- An extension that provides the ERB language grammar (`text.html.erb`) is required.
+- In this environment, `Shopify.ruby-lsp` provides the ERB grammar.
+
 ## Usage
 
 Open any `.erb` file that uses `javascript_tag` and the JavaScript section will be highlighted automatically, with
