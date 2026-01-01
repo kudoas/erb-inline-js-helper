@@ -2,13 +2,13 @@
 
 <img src="icon.png" alt="ERB Inline JS Helper" width="128" height="128"/>
 
-Syntax highlighting and code completion for JavaScript embedded in Rails ERB `javascript_tag` blocks and inline strings.
+Syntax highlighting and language features for JavaScript embedded in Rails ERB `javascript_tag` blocks.
 
 ![image](sample.gif)
 
 ## Features
 
-- Enhances `javascript_tag` with JavaScript highlighting, code completion, and hover info
+- Enhances `javascript_tag` with JavaScript highlighting, code completion, hover info, and go to definition
 - Uses JavaScript comment toggling (`//`) inside `javascript_tag` blocks
 - Works as an injection into `text.html.erb` grammar for ERB files.
 
@@ -19,7 +19,8 @@ Syntax highlighting and code completion for JavaScript embedded in Rails ERB `ja
 
 ## Usage
 
-Open any `.erb` file that uses `javascript_tag` and the JavaScript section will be highlighted automatically.
+Open any `.erb` file that uses `javascript_tag` and the JavaScript section will be highlighted automatically, with
+completion, hover, and definition support inside the block.
 
 ## Configuration
 
