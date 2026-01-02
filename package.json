@@ -52,7 +52,7 @@
     "build": "bun x tsc -p tsconfig.json",
     "watch": "bun x tsc -w -p tsconfig.json"
   },
-  "packageManager": "bun@1.3.3",
+  "packageManager": "bun@1.3.5",
   "dependencies": {
     "typescript": "^5.9.3"
   },

@@ -178,9 +178,8 @@ class JavaScriptDefinitionProvider {
         const offset = document.offsetAt(position);
         const block = findJavascriptTagBlock(text, offset);
         this.log?.(`Definition: offset=${offset} block=${block ? `${block.start}-${block.end}` : 'none'} cancelled=${token.isCancellationRequested}`);
-        if (!block || token.isCancellationRequested) {
+        if (!block || token.isCancellationRequested)
             return undefined;
-        }
         const context = text.slice(block.start, block.end);
         const jsOffset = offset - block.start;
         this.tsService.updateContent(context);
