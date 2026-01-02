@@ -18,7 +18,8 @@
     "Shopify.ruby-lsp"
   ],
   "engines": {
-    "vscode": "^1.107.0"
+    "vscode": "^1.107.0",
+    "node": "24.x"
   },
   "categories": [
     "Programming Languages"
