@@ -19,4 +19,5 @@ jobs:
       - run: gem install ruby-lsp
       - run: bun install
       - run: bun run build
+      - run: bun run test
       - run: xvfb-run -a bun run test:e2e

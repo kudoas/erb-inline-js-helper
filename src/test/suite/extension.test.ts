@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import { ok } from 'node:assert';
 import * as vscode from 'vscode';
 
 const FIXTURE_RELATIVE_PATH = 'app/views/example.html.erb';
@@ -6,27 +6,27 @@ const FIXTURE_RELATIVE_PATH = 'app/views/example.html.erb';
 suite('ERB Inline JS Helper - Happy Path', () => {
   let document: vscode.TextDocument;
 
-  suiteSetup(async function () {
+  suiteSetup(async () => {
     const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
-    assert.ok(workspaceRoot, 'Workspace is not open');
+    ok(workspaceRoot, 'Workspace is not open');
 
     document = await vscode.workspace.openTextDocument(vscode.Uri.file(`${workspaceRoot}/${FIXTURE_RELATIVE_PATH}`));
 
     const extension = vscode.extensions.getExtension('kudoas.erb-inline-js-helper');
-    assert.ok(extension, 'Extension is not found');
+    ok(extension, 'Extension is not found');
     await extension.activate();
-    assert.ok(extension.isActive, 'Extension did not activate');
+    ok(extension.isActive, 'Extension did not activate');
   });
 
-  test('extension activates', async function () {
+  test('extension activates', async () => {
     const extension = vscode.extensions.getExtension('kudoas.erb-inline-js-helper');
 
-    assert.ok(extension, 'Extension is not found');
+    ok(extension, 'Extension is not found');
     await extension.activate();
-    assert.ok(extension.isActive, 'Extension did not activate');
+    ok(extension.isActive, 'Extension did not activate');
   });
 
-  test('completion provides console.log', async function () {
+  test('completion provides console.log', async () => {
     const position = positionAtSubstring(document, 'console.', 0, 'completion target', 'after');
 
     const list = await vscode.commands.executeCommand<vscode.CompletionList>(
@@ -36,12 +36,12 @@ suite('ERB Inline JS Helper - Happy Path', () => {
       '.'
     );
 
-    assert.ok(list, 'Completion list is undefined');
+    ok(list, 'Completion list is undefined');
     const labels = list.items.map((item) => (typeof item.label === 'string' ? item.label : item.label.label));
-    assert.ok(labels.includes('log'), 'Expected "log" in completion items');
+    ok(labels.includes('log'), 'Expected "log" in completion items');
   });
 
-  test('hover shows info for message', async function () {
+  test('hover shows info for message', async () => {
     const position = positionAtSubstring(document, 'message', 0, 'hover target');
     const hovers = await vscode.commands.executeCommand<vscode.Hover[]>(
       'vscode.executeHoverProvider',
@@ -49,16 +49,16 @@ suite('ERB Inline JS Helper - Happy Path', () => {
       position
     );
 
-    assert.ok(hovers && hovers.length > 0, 'Hover is empty');
+    ok(hovers && hovers.length > 0, 'Hover is empty');
     const text = hovers
       .flatMap((hover) => hover.contents)
       .map((content) => (typeof content === 'string' ? content : content.value))
       .join(' ');
 
-    assert.ok(text.includes('message'), 'Hover does not mention "message"');
+    ok(text.includes('message'), 'Hover does not mention "message"');
   });
 
-  test('definition points to message declaration', async function () {
+  test('definition points to message declaration', async () => {
     const usageLineIndex = indexOfSubstring(document, 'console.log(message);', 0, 'definition usage line');
     const usageNameIndex = indexOfSubstring(document, 'message', usageLineIndex, 'definition usage');
     const usagePosition = document.positionAt(usageNameIndex);
@@ -67,7 +67,7 @@ suite('ERB Inline JS Helper - Happy Path', () => {
     >('vscode.executeDefinitionProvider', document.uri, usagePosition);
 
     const locations = normalizeLocations(definitions);
-    assert.ok(locations.length > 0, 'Definition result is empty');
+    ok(locations.length > 0, 'Definition result is empty');
 
     const declarationLineIndex = indexOfSubstring(document, 'const message', 0, 'definition declaration');
     const declarationNameIndex = indexOfSubstring(
@@ -83,7 +83,7 @@ suite('ERB Inline JS Helper - Happy Path', () => {
         location.uri.toString() === document.uri.toString() && location.range.start.isEqual(declarationNamePosition)
     );
 
-    assert.ok(match, 'Definition did not resolve to the message declaration');
+    ok(match, 'Definition did not resolve to the message declaration');
   });
 });
 
@@ -102,7 +102,7 @@ function positionAtSubstring(
 function indexOfSubstring(document: vscode.TextDocument, substring: string, fromIndex: number, label: string): number {
   const text = document.getText();
   const index = text.indexOf(substring, fromIndex);
-  assert.ok(index !== -1, `Missing substring for ${label}: ${substring}`);
+  ok(index !== -1, `Missing substring for ${label}: ${substring}`);
   return index;
 }
 
