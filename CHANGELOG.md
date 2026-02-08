@@ -2,6 +2,13 @@
 
 All notable changes to the "erb-inline-js-helper" extension will be documented in this file.
 
+## [0.2.1](https://github.com/kudoas/erb-inline-js-helper/compare/v0.2.0...v0.2.1) (2026-02-08)
+
+
+### Bug Fixes
+
+* implement virtual file name generation and update content methods ([#25](https://github.com/kudoas/erb-inline-js-helper/issues/25)) ([901e1a2](https://github.com/kudoas/erb-inline-js-helper/commit/901e1a29e16ad52fb8f5542bab6ca465a6ac6344))
+
 ## [0.2.0](https://github.com/kudoas/erb-inline-js-helper/compare/v0.1.2...v0.2.0) (2026-01-25)
 
 
