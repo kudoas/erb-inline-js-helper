@@ -4,6 +4,7 @@ import type { CancellationToken, ProviderResult, TextDocument } from 'vscode';
 import type { Logger } from '../types';
 import { findJavascriptTagBlock } from '../erbBlock';
 import { TypeScriptCompletionService } from '../services/typescriptCompletionService';
+import { toVirtualFileName } from '../virtualFile';
 
 export class JavaScriptHoverProvider {
   constructor(
@@ -26,7 +27,8 @@ export class JavaScriptHoverProvider {
 
     const jsContent = text.slice(block.start, block.end);
     const jsOffset = offset - block.start;
-    this.tsService.updateContent(jsContent);
+    const virtualFileName = toVirtualFileName(document);
+    this.tsService.updateContent(jsContent, virtualFileName);
 
     const info = this.tsService.getQuickInfo(jsOffset);
     this.log?.(`Hover: jsOffset=${jsOffset} info=${info ? 'yes' : 'no'} cancelled=${token.isCancellationRequested}`);

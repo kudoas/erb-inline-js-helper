@@ -14,7 +14,7 @@ import type {
 import type { Logger } from '../types';
 
 export class TypeScriptCompletionService {
-  private readonly fileName = '/virtual/erb-javascript-tag.js';
+  private fileName = '/virtual/erb-javascript-tag.js';
   private content = '';
   private version = 0;
   private readonly compilerOptions: CompilerOptions;
@@ -29,15 +29,21 @@ export class TypeScriptCompletionService {
     this.service = createLanguageService(this.#createHost());
   }
 
-  updateContent(content: string): void {
-    if (content === this.content) {
+  updateContent(content: string, fileName?: string): void {
+    const nextFileName = fileName ?? this.fileName;
+    const fileNameChanged = nextFileName !== this.fileName;
+    const contentChanged = content !== this.content;
+    if (!fileNameChanged && !contentChanged) {
       this.log?.('TypeScriptCompletionService: content unchanged');
       return;
     }
 
+    this.fileName = nextFileName;
     this.content = content;
     this.version += 1;
-    this.log?.(`TypeScriptCompletionService: content updated (version=${this.version}, length=${content.length})`);
+    this.log?.(
+      `TypeScriptCompletionService: content updated (version=${this.version}, length=${content.length}, file=${this.fileName})`
+    );
   }
 
   getCompletions(offset: number, triggerCharacter?: CompletionsTriggerCharacter): CompletionInfo | undefined {

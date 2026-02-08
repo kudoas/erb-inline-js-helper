@@ -5,6 +5,7 @@ import type { CompletionEntry } from 'typescript';
 import type { Logger } from '../types';
 import { findJavascriptTagBlock } from '../erbBlock';
 import { TypeScriptCompletionService } from '../services/typescriptCompletionService';
+import { toVirtualFileName } from '../virtualFile';
 
 type CompletionItemData = {
   name: string;
@@ -42,7 +43,8 @@ export class JavaScriptCompletionProvider implements CompletionItemProvider {
     const lastChar = jsOffset > 0 ? jsContent[jsOffset - 1] : undefined;
     const triggerCharacter = lastChar === '.' ? '.' : undefined;
 
-    this.tsService.updateContent(jsContent);
+    const virtualFileName = toVirtualFileName(document);
+    this.tsService.updateContent(jsContent, virtualFileName);
     const completions = this.tsService.getCompletions(jsOffset, triggerCharacter);
     this.log?.(
       `Completion: jsOffset=${jsOffset} trigger=${triggerCharacter ?? 'none'} entries=${
