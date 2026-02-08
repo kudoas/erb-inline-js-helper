@@ -6,6 +6,7 @@ import type { CancellationToken, Definition, ProviderResult, TextDocument } from
 import type { Logger } from '../types';
 import { findJavascriptTagBlock } from '../erbBlock';
 import { TypeScriptCompletionService } from '../services/typescriptCompletionService';
+import { toVirtualFileName } from '../virtualFile';
 
 export class JavaScriptDefinitionProvider implements DefinitionProvider {
   constructor(
@@ -26,7 +27,8 @@ export class JavaScriptDefinitionProvider implements DefinitionProvider {
 
     const context = text.slice(block.start, block.end);
     const jsOffset = offset - block.start;
-    this.tsService.updateContent(context);
+    const virtualFileName = toVirtualFileName(document);
+    this.tsService.updateContent(context, virtualFileName);
 
     const definitions = this.tsService.getDefinitions(jsOffset);
     this.log?.(
@@ -36,10 +38,10 @@ export class JavaScriptDefinitionProvider implements DefinitionProvider {
       return undefined;
     }
 
-    const virtualFileName = this.tsService.getVirtualFileName();
+    const serviceVirtualFileName = this.tsService.getVirtualFileName();
     const locations = definitions
       .map((definition) => {
-        if (definition.fileName === virtualFileName) {
+        if (definition.fileName === serviceVirtualFileName) {
           const start = document.positionAt(block.start + definition.textSpan.start);
           const end = document.positionAt(block.start + definition.textSpan.start + definition.textSpan.length);
           return new Location(document.uri, new Range(start, end));
