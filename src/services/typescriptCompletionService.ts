@@ -91,7 +91,16 @@ export class TypeScriptCompletionService {
       getCompilationSettings: () => this.compilerOptions,
       getDefaultLibFileName: (options) => getDefaultLibFilePath(options),
       fileExists: (fileName) => fileName === this.fileName || sys.fileExists(fileName),
-      readFile: (fileName) => (fileName === this.fileName ? this.content : sys.readFile(fileName))
+      readFile: (fileName) => (fileName === this.fileName ? this.content : sys.readFile(fileName)),
+      resolveModuleNames: (moduleNames, containingFile) => {
+        return moduleNames.map((moduleName) => {
+          const result = ts.resolveModuleName(moduleName, containingFile, this.compilerOptions, {
+            fileExists: sys.fileExists,
+            readFile: sys.readFile
+          });
+          return result.resolvedModule;
+        });
+      }
     };
   }
 }
