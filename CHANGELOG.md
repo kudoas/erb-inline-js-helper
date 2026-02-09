@@ -2,6 +2,13 @@
 
 All notable changes to the "erb-inline-js-helper" extension will be documented in this file.
 
+## [0.3.0](https://github.com/kudoas/erb-inline-js-helper/compare/v0.2.1...v0.3.0) (2026-02-09)
+
+
+### Features
+
+* implement resolveModuleNames for type resolution in ERB virtual files ([#29](https://github.com/kudoas/erb-inline-js-helper/issues/29)) ([87df3b1](https://github.com/kudoas/erb-inline-js-helper/commit/87df3b1a740c36efe70816286fc0f813a0e9ce0c))
+
 ## [0.2.1](https://github.com/kudoas/erb-inline-js-helper/compare/v0.2.0...v0.2.1) (2026-02-08)
 
 
