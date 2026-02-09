@@ -2,12 +2,6 @@
 
 All notable changes to the "erb-inline-js-helper" extension will be documented in this file.
 
-## [Unreleased]
-
-### Bug Fixes
-
-* implement resolveModuleNames for proper type resolution in ERB virtual files - fixes intersection types resolving to `any`
-
 ## [0.2.1](https://github.com/kudoas/erb-inline-js-helper/compare/v0.2.0...v0.2.1) (2026-02-08)
 
 
