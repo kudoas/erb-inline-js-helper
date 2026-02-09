@@ -94,7 +94,6 @@ person.
       // Cleanup
       try {
         fs.unlinkSync(typeDefPath);
-        fs.unlinkSync(testFilePath);
         fs.rmdirSync(tmpDir);
       } catch (e) {
         // Ignore cleanup errors
