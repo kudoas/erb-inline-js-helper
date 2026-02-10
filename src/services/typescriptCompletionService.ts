@@ -13,18 +13,41 @@ import type {
 } from 'typescript';
 import type { Logger } from '../types';
 
+// Helper function to get workspace root
+function getWorkspaceRoot(): string {
+  try {
+    // Dynamic import to avoid issues in test environments
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const vscode = require('vscode');
+    return vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? process.cwd();
+  } catch {
+    // If vscode is not available (e.g., in unit tests), use process.cwd()
+    return process.cwd();
+  }
+}
+
 export class TypeScriptCompletionService {
   private fileName = '/virtual/erb-javascript-tag.js';
   private content = '';
   private version = 0;
+  private readonly workspaceRoot: string;
   private readonly compilerOptions: CompilerOptions;
   private readonly service: LanguageService;
 
   constructor(private readonly log?: Logger) {
+    // Get workspace root directory
+    this.workspaceRoot = getWorkspaceRoot();
+    
     this.compilerOptions = {
       allowJs: true,
       checkJs: false,
-      target: ts.ScriptTarget.ES2024
+      target: ts.ScriptTarget.ES2024,
+      module: ts.ModuleKind.ESNext,
+      moduleResolution: ts.ModuleResolutionKind.NodeNext,
+      esModuleInterop: true,
+      skipLibCheck: true,
+      resolveJsonModule: true,
+      baseUrl: this.workspaceRoot
     };
     this.service = createLanguageService(this.#createHost());
   }
@@ -87,7 +110,7 @@ export class TypeScriptCompletionService {
 
         return ScriptSnapshot.fromString(fileText);
       },
-      getCurrentDirectory: () => process.cwd(),
+      getCurrentDirectory: () => this.workspaceRoot,
       getCompilationSettings: () => this.compilerOptions,
       getDefaultLibFileName: (options) => getDefaultLibFilePath(options),
       fileExists: (fileName) => fileName === this.fileName || sys.fileExists(fileName),
@@ -98,6 +121,9 @@ export class TypeScriptCompletionService {
             fileExists: sys.fileExists,
             readFile: sys.readFile
           });
+          this.log?.(
+            `Module resolution: ${moduleName} from ${containingFile} => ${result.resolvedModule?.resolvedFileName ?? 'NOT FOUND'}`
+          );
           return result.resolvedModule;
         });
       }
