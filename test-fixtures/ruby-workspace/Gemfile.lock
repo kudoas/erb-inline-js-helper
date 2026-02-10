@@ -4,12 +4,14 @@ GEM
     language_server-protocol (3.17.0.5)
     logger (1.7.0)
     prism (1.8.0)
-    rbs (3.10.2)
+    rbs (3.10.3)
       logger
-    ruby-lsp (0.26.5)
+      tsort
+    ruby-lsp (0.26.6)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
       rbs (>= 3, < 5)
+    tsort (0.2.0)
 
 PLATFORMS
   ruby
