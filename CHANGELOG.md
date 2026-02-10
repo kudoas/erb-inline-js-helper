@@ -2,6 +2,13 @@
 
 All notable changes to the "erb-inline-js-helper" extension will be documented in this file.
 
+## [0.3.1](https://github.com/kudoas/erb-inline-js-helper/compare/v0.3.0...v0.3.1) (2026-02-10)
+
+
+### Bug Fixes
+
+* Fix intersection type resolution in JSDoc annotations ([#32](https://github.com/kudoas/erb-inline-js-helper/issues/32)) ([02a85e0](https://github.com/kudoas/erb-inline-js-helper/commit/02a85e08b2721ad6dfa07570780836ed5b07c3f3))
+
 ## [0.3.0](https://github.com/kudoas/erb-inline-js-helper/compare/v0.2.1...v0.3.0) (2026-02-09)
 
 
