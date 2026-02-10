@@ -44,12 +44,10 @@ export class TypeScriptCompletionService {
       target: ts.ScriptTarget.ES2024,
       module: ts.ModuleKind.ESNext,
       moduleResolution: ts.ModuleResolutionKind.NodeNext,
-      lib: ['lib.es2024.d.ts'],
       esModuleInterop: true,
       skipLibCheck: true,
       resolveJsonModule: true,
-      baseUrl: this.workspaceRoot,
-      paths: {}
+      baseUrl: this.workspaceRoot
     };
     this.service = createLanguageService(this.#createHost());
   }
