@@ -2,6 +2,13 @@
 
 All notable changes to the "erb-inline-js-helper" extension will be documented in this file.
 
+## [0.3.2](https://github.com/kudoas/erb-inline-js-helper/compare/v0.3.1...v0.3.2) (2026-02-10)
+
+
+### Bug Fixes
+
+* ignore node_modules ([4686e5d](https://github.com/kudoas/erb-inline-js-helper/commit/4686e5d3330f89c528082f872d41aa449ecb9186))
+
 ## [0.3.1](https://github.com/kudoas/erb-inline-js-helper/compare/v0.3.0...v0.3.1) (2026-02-10)
 
 
