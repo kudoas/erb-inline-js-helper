@@ -4,3 +4,5 @@
 vsc-extension-quickstart.md
 README.md
 CHANGELOG.md
+node_modules/**
+!node_modules/typescript/**
