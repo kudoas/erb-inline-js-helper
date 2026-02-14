@@ -30,6 +30,15 @@ This document summarizes the design, behavior, and workflow for this repository.
 - Add release notes to `CHANGELOG.md` (newest entry at the top).
 - Build with `bun run build`.
 
+## Packaging and runtime dependencies
+
+- Runtime features (completion/hover/definition) rely on the TypeScript Language Service.
+- `typescript` is a runtime dependency and must be available in the packaged extension.
+- `devDependencies` are for development/testing and should not be required at runtime.
+- The `vscode` module is provided by the VS Code extension host and does not need bundling.
+- Prefer excluding `node_modules/**` in `.vscodeignore`, then explicitly re-include only required runtime modules (for this project: `node_modules/typescript/**`).
+- Keep packaging rules explicit to reduce VSIX size without breaking runtime behavior.
+
 ## Commit message style (recommended)
 
 - Example: `feat: add go to definition in javascript_tag blocks`
