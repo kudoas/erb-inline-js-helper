@@ -18,6 +18,7 @@ export function activate(context: ExtensionContext): void {
   const completionProvider = new JavaScriptCompletionProvider(tsService, log);
   const hoverProvider = new JavaScriptHoverProvider(tsService, log);
   const definitionProvider = new JavaScriptDefinitionProvider(tsService, log);
+  context.subscriptions.push({ dispose: () => tsService.dispose() });
   context.subscriptions.push(languages.registerCompletionItemProvider({ language: 'erb' }, completionProvider, '.'));
   context.subscriptions.push(languages.registerHoverProvider({ language: 'erb' }, hoverProvider));
   context.subscriptions.push(languages.registerDefinitionProvider({ language: 'erb' }, definitionProvider));

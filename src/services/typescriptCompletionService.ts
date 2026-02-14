@@ -90,6 +90,11 @@ export class TypeScriptCompletionService {
     return this.service.getDefinitionAtPosition(this.fileName, offset);
   }
 
+  dispose(): void {
+    this.service.dispose();
+    this.log?.('TypeScriptCompletionService: language service disposed');
+  }
+
   restart(): void {
     this.service.dispose();
     this.service = createLanguageService(this.#createHost());

@@ -131,4 +131,12 @@ person.
     ok(afterRestart, 'Expected completions after restart');
     ok(afterRestart.entries.some((e) => e.name === 'toFixed'), 'Expected Number completions after restart');
   });
+
+  test('disposes language service without throwing', () => {
+    const service = new TypeScriptCompletionService();
+    service.updateContent('const answer = 42;');
+
+    service.dispose();
+    ok(true, 'dispose completed');
+  });
 });
