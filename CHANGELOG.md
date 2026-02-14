@@ -2,6 +2,13 @@
 
 All notable changes to the "erb-inline-js-helper" extension will be documented in this file.
 
+## [0.3.4](https://github.com/kudoas/erb-inline-js-helper/compare/v0.3.3...v0.3.4) (2026-02-14)
+
+
+### Bug Fixes
+
+* **packaging:** include typescript in VSIX package ([#36](https://github.com/kudoas/erb-inline-js-helper/issues/36)) ([6f7cbde](https://github.com/kudoas/erb-inline-js-helper/commit/6f7cbdea6197bf6b457802c86bf2f424455f64f0))
+
 ## [0.3.3](https://github.com/kudoas/erb-inline-js-helper/compare/v0.3.2...v0.3.3) (2026-02-10)
 
 
