@@ -2,7 +2,7 @@
   "name": "erb-inline-js-helper",
   "displayName": "ERB Inline JS Helper",
   "description": "VS Code extension to provide syntax highlighting and code completion for JavaScript in ERB files.",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "license": "MIT",
   "pricing": "Free",
   "icon": "icon.png",
