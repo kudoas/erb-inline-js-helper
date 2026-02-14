@@ -2,6 +2,13 @@
 
 All notable changes to the "erb-inline-js-helper" extension will be documented in this file.
 
+## [0.4.0](https://github.com/kudoas/erb-inline-js-helper/compare/v0.3.4...v0.4.0) (2026-02-14)
+
+
+### Features
+
+* add restart language service command ([#39](https://github.com/kudoas/erb-inline-js-helper/issues/39)) ([dc64abd](https://github.com/kudoas/erb-inline-js-helper/commit/dc64abdd5ae4e553f8f6799150b18744d00128b6))
+
 ## [0.3.4](https://github.com/kudoas/erb-inline-js-helper/compare/v0.3.3...v0.3.4) (2026-02-14)
 
 
