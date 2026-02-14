@@ -1,4 +1,4 @@
-import { languages, window } from 'vscode';
+import { commands, languages, window } from 'vscode';
 
 import type { ExtensionContext } from 'vscode';
 import { JavaScriptCompletionProvider } from './providers/completion';
@@ -21,6 +21,13 @@ export function activate(context: ExtensionContext): void {
   context.subscriptions.push(languages.registerCompletionItemProvider({ language: 'erb' }, completionProvider, '.'));
   context.subscriptions.push(languages.registerHoverProvider({ language: 'erb' }, hoverProvider));
   context.subscriptions.push(languages.registerDefinitionProvider({ language: 'erb' }, definitionProvider));
+  context.subscriptions.push(
+    commands.registerCommand('erbInlineJsHelper.restartLanguageService', () => {
+      tsService.restart();
+      log('Command executed: erbInlineJsHelper.restartLanguageService');
+      void window.showInformationMessage('ERB Inline JS Helper: TypeScript Language Service restarted.');
+    })
+  );
   context.subscriptions.push(output);
 }
 

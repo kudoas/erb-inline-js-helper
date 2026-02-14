@@ -31,6 +31,13 @@
     "JavaScript"
   ],
   "contributes": {
+    "commands": [
+      {
+        "command": "erbInlineJsHelper.restartLanguageService",
+        "title": "Restart Language Service",
+        "category": "ERB Inline JS Helper"
+      }
+    ],
     "grammars": [
       {
         "scopeName": "erb.inline-js.injection",
