@@ -116,4 +116,27 @@ person.
     // Version tracking is internal, but we can verify service still works
     ok(true, 'Service handled multiple content updates');
   });
+
+  test('continues to provide completions after restart', () => {
+    const service = new TypeScriptCompletionService();
+    const jsContent = 'const answer = 42; answer.';
+    service.updateContent(jsContent);
+
+    const beforeRestart = service.getCompletions(jsContent.length);
+    ok(beforeRestart, 'Expected completions before restart');
+
+    service.restart();
+
+    const afterRestart = service.getCompletions(jsContent.length);
+    ok(afterRestart, 'Expected completions after restart');
+    ok(afterRestart.entries.some((e) => e.name === 'toFixed'), 'Expected Number completions after restart');
+  });
+
+  test('disposes language service without throwing', () => {
+    const service = new TypeScriptCompletionService();
+    service.updateContent('const answer = 42;');
+
+    service.dispose();
+    ok(true, 'dispose completed');
+  });
 });

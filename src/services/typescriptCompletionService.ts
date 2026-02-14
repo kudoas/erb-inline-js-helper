@@ -32,7 +32,7 @@ export class TypeScriptCompletionService {
   private version = 0;
   private readonly workspaceRoot: string;
   private readonly compilerOptions: CompilerOptions;
-  private readonly service: LanguageService;
+  private service: LanguageService;
 
   constructor(private readonly log?: Logger) {
     // Get workspace root directory
@@ -88,6 +88,17 @@ export class TypeScriptCompletionService {
 
   getDefinitions(offset: number): readonly DefinitionInfo[] | undefined {
     return this.service.getDefinitionAtPosition(this.fileName, offset);
+  }
+
+  dispose(): void {
+    this.service.dispose();
+    this.log?.('TypeScriptCompletionService: language service disposed');
+  }
+
+  restart(): void {
+    this.service.dispose();
+    this.service = createLanguageService(this.#createHost());
+    this.log?.('TypeScriptCompletionService: language service restarted');
   }
 
   getVirtualFileName(): string {
