@@ -1,10 +1,10 @@
-import { CompletionItem, CompletionList, MarkdownString, Position, SnippetString } from 'vscode';
+import { CompletionItem, CompletionList, MarkdownString, type Position, SnippetString } from 'vscode';
 
 import type { CancellationToken, CompletionItemProvider, ProviderResult, TextDocument } from 'vscode';
 import type { CompletionEntry } from 'typescript';
 import type { Logger } from '../types';
 import { findJavascriptTagBlock } from '../erbBlock';
-import { TypeScriptCompletionService } from '../services/typescriptCompletionService';
+import type { TypeScriptCompletionService } from '../services/typescriptCompletionService';
 import { toVirtualFileName } from '../virtualFile';
 
 type CompletionItemData = {

@@ -8,9 +8,7 @@ const RUBY_BLOCK_END_PATTERN = /\bend\b/;
 export function findJavascriptTagBlock(text: string, offset: number): BlockRange | null {
   ERB_TAG_PATTERN.lastIndex = 0;
   const stack: Array<{ index: number; length: number; indent: number }> = [];
-  let match: RegExpExecArray | null;
-
-  while ((match = ERB_TAG_PATTERN.exec(text))) {
+  for (let match = ERB_TAG_PATTERN.exec(text); match; match = ERB_TAG_PATTERN.exec(text)) {
     const token = match[0];
     const content = match[1] || '';
     const normalized = content.trim();

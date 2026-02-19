@@ -1,11 +1,11 @@
-import { DefinitionProvider, Location, Position, Range, Uri } from 'vscode';
+import { type DefinitionProvider, Location, Position, Range, Uri } from 'vscode';
 import * as ts from 'typescript';
 import { sys } from 'typescript';
 
 import type { CancellationToken, Definition, ProviderResult, TextDocument } from 'vscode';
 import type { Logger } from '../types';
 import { findJavascriptTagBlock } from '../erbBlock';
-import { TypeScriptCompletionService } from '../services/typescriptCompletionService';
+import type { TypeScriptCompletionService } from '../services/typescriptCompletionService';
 import { toVirtualFileName } from '../virtualFile';
 
 export class JavaScriptDefinitionProvider implements DefinitionProvider {

@@ -16,7 +16,7 @@ suite('erbBlock', () => {
     ok(block);
     const expectedStart = erb.indexOf('%>') + 2;
     const expectedEnd = erb.indexOf('<% end %>');
-    strictEqual(block!.start, expectedStart);
-    strictEqual(block!.end, expectedEnd);
+    strictEqual(block?.start, expectedStart);
+    strictEqual(block?.end, expectedEnd);
   });
 });

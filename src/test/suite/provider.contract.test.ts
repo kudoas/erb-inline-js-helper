@@ -9,7 +9,7 @@ import { findJavascriptTagBlock } from '../../erbBlock';
 import { JavaScriptCompletionProvider } from '../../providers/completion';
 import { JavaScriptDefinitionProvider } from '../../providers/definition';
 import { JavaScriptHoverProvider } from '../../providers/hover';
-import { TypeScriptCompletionService } from '../../services/typescriptCompletionService';
+import type { TypeScriptCompletionService } from '../../services/typescriptCompletionService';
 import { toVirtualFileName } from '../../virtualFile';
 
 const FIXTURE_RELATIVE_PATH = 'app/views/example.html.erb';

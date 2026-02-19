@@ -1,4 +1,4 @@
-import { ok, strictEqual } from 'node:assert';
+import { ok } from 'node:assert';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
@@ -95,7 +95,7 @@ person.
       try {
         fs.unlinkSync(typeDefPath);
         fs.rmdirSync(tmpDir);
-      } catch (e) {
+      } catch {
         // Ignore cleanup errors
       }
     }
@@ -103,8 +103,6 @@ person.
 
   test('updates version when content changes', () => {
     const service = new TypeScriptCompletionService();
-    const version1 = service.getVirtualFileName();
-
     service.updateContent('const x = 1;');
     const completions1 = service.getCompletions(15);
     ok(completions1, 'Expected first completions to be defined');
