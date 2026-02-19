@@ -58,6 +58,8 @@
   "scripts": {
     "build": "bun x tsc -p tsconfig.json",
     "watch": "bun x tsc -w -p tsconfig.json",
+    "lint": "bun x biome lint src",
+    "lint:fix": "bun x biome lint --write src",
     "test": "NODE_OPTIONS=--disable-warning=MODULE_TYPELESS_PACKAGE_JSON TS_NODE_PROJECT=tsconfig.test.json bun x mocha --ui tdd --require ts-node/register --extension ts \"src/test/unit/**/*.test.ts\"",
     "test:watch": "NODE_OPTIONS=--disable-warning=MODULE_TYPELESS_PACKAGE_JSON TS_NODE_PROJECT=tsconfig.test.json bun x mocha --ui tdd --require ts-node/register --extension ts --watch --watch-files \"src/**/*.ts\" \"src/test/unit/**/*.test.ts\"",
     "pretest:e2e": "bun x tsc -p tsconfig.json",
@@ -68,6 +70,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.2",
     "@types/debug": "^4.1.12",
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.0.3",

@@ -17,6 +17,7 @@ jobs:
           ruby-version: "4.0.1"
       - run: gem install ruby-lsp
       - run: bun install
+      - run: bun run lint
       - run: bun run build
       - run: bun run test
       - run: xvfb-run -a bun run test:e2e

@@ -1,9 +1,9 @@
-import { Hover, MarkdownString, Position, Range } from 'vscode';
+import { Hover, MarkdownString, type Position, Range } from 'vscode';
 
 import type { CancellationToken, ProviderResult, TextDocument } from 'vscode';
 import type { Logger } from '../types';
 import { findJavascriptTagBlock } from '../erbBlock';
-import { TypeScriptCompletionService } from '../services/typescriptCompletionService';
+import type { TypeScriptCompletionService } from '../services/typescriptCompletionService';
 import { toVirtualFileName } from '../virtualFile';
 
 export class JavaScriptHoverProvider {
