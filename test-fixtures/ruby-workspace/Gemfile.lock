@@ -3,11 +3,11 @@ GEM
   specs:
     language_server-protocol (3.17.0.5)
     logger (1.7.0)
-    prism (1.8.0)
-    rbs (3.10.3)
+    prism (1.8.1)
+    rbs (3.10.4)
       logger
       tsort
-    ruby-lsp (0.26.7)
+    ruby-lsp (0.26.9)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
       rbs (>= 3, < 5)
