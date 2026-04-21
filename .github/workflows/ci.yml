@@ -14,7 +14,7 @@ jobs:
           bun-version: "1.3.13"
       - uses: ruby/setup-ruby@94e4d89d3e6c1c7599e0210d114c5ffb23f1a866 # v1.304.0
         with:
-          ruby-version: "4.0.2"
+          ruby-version: "4.0.3"
       - run: gem install ruby-lsp
       - run: bun install
       - run: bun run lint
