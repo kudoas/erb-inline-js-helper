@@ -2,6 +2,13 @@
 
 All notable changes to the "erb-inline-js-helper" extension will be documented in this file.
 
+## [0.4.1](https://github.com/kudoas/erb-inline-js-helper/compare/v0.4.0...v0.4.1) (2026-08-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency typescript to v6 ([#56](https://github.com/kudoas/erb-inline-js-helper/issues/56)) ([0ee3f31](https://github.com/kudoas/erb-inline-js-helper/commit/0ee3f31d67f5c39307986561d61ce3af85d8888b))
+
 ## [0.4.0](https://github.com/kudoas/erb-inline-js-helper/compare/v0.3.4...v0.4.0) (2026-02-14)
 
 
